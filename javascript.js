@@ -27,7 +27,7 @@ function getPlayerChoice() {
     return choice;
 }
 
-function playRound(playerChoice, computerChoice) {
+function playRound(playerChoice, computerChoice, roundNum) {
     // defaulting to "tie"
     // if none of these 'if' statements trigger, that means they're the same
     // and therefore it's a tie. boooo
@@ -55,23 +55,78 @@ function playRound(playerChoice, computerChoice) {
 
     // console.log ("winState:  " + winState);
 
+    let sendWinState = winState;
+    // Need to get this before the switch statement, or else winState may
+    // not update/be inaccurate to send
+    // console.log("SendwinState:  " + sendWinState);
+
     switch (winState) {
         
         case winState = "win":
-            console.log("You win!" + playerChoice + " beats " + computerChoice);
+            console.log("You win Round " + roundNum + " of 5! "  + playerChoice + " beats " + computerChoice);
             break;
 
         case winState = "lose":
-            console.log("You lose! " + computerChoice + " beats " + playerChoice);
+            console.log("You lose Round " + roundNum + " of 5! " + computerChoice + " beats " + playerChoice);
             break;
 
         default:
-            console.log("It's a tie! You both had " + playerChoice);
+            console.log("Round " + roundNum + " of 5 is a tie! You both had " + playerChoice);
             break;
     }
+
+    return sendWinState;
 }
 
-const playerChoice = getPlayerChoice();
-const computerChoice = getComputerChoice();
+// const playerChoice = getPlayerChoice();
+// const computerChoice = getComputerChoice();
 
-playRound(playerChoice, computerChoice);
+// playRound(playerChoice, computerChoice);
+
+function playGame() {
+    let getWinState = "";
+    let wins = 0;
+    let losses = 0;
+    let ties = 0;
+    for (let i = 0; i < 5; i++) {
+        let playerChoice = getPlayerChoice();
+        let computerChoice = getComputerChoice();
+        let roundNum = i + 1;
+        // console.log(roundNum);
+        getWinState = playRound(playerChoice, computerChoice, roundNum);
+        // console.log("getWinState:  " + getWinState);
+        if (getWinState == "tie") {
+            ties += 1;
+            //console.log("TIE")
+        } else if (getWinState == "win") {
+            wins += 1;
+            //console.log("WIN")
+        } else if (getWinState == "lose") {
+            losses += 1;
+            //console.log("LOSE")
+        } 
+
+        getWinState = "";
+
+        console.log("\nSTATS:");
+        console.log("Number of wins: " + wins);
+        console.log("Number of losses: " + losses);
+        console.log("Number of ties: " + ties);
+        console.log("~~~~~~~~~~~~~~~~~~~~~~")
+    }
+
+    if (wins > losses) {
+        console.log("\nYou WIN the best-of-5 series! Eat trash, computer!")
+    } else if (wins < losses) {
+        console.log("\nYou LOSE the best-of-5 series! Humanity is disappointed in you.")
+    } else {
+        console.log("\nYou TIE the best-of-5 series! I guess humans and computers are equal after all.")
+    }
+
+    console.log("\nSTATS:");
+    console.log("Number of wins: " + wins);
+    console.log("Number of losses: " + losses);
+    console.log("Number of ties: " + ties);
+}
+
+playGame();

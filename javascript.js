@@ -1,30 +1,37 @@
+// Globals
+let roundNum = 1;
+
 
 function getComputerChoice() {
     let options = ['rock', 'paper', 'scissors'];
     randomInt = Math.floor(Math.random() * 3);
     // console.log(options[randomInt]); // prints 0, 1, or 2
     let choice = options[randomInt];
-    console.log("\t\t\t\tComputer has " + choice);
+    //console.log("\t\t\t\tComputer has " + choice);
     return choice;
 }
 
-function getPlayerChoice() {
-    let options = ['rock', 'paper', 'scissors'];
-    let validChoice = false;
-    let choice = "";
+function getPlayerChoice(playerChoice) {
+    // let options = ['rock', 'paper', 'scissors'];
+    // let validChoice = false;
+    // let choice = "";
 
-    while (validChoice == false) {
-        choice = prompt("Enter 'rock', 'paper', or 'scissors':  ").toLowerCase();
-        choice.slice(" ");
-        // console.log("player choice: " + choice);
-        if (options.includes(choice) == false) {
-            console.log("\t\t\t\tInvalid choice! Pick again.\n\t\t\t\t(case-sensitive)");
-        } else {
-            console.log("\t\t\t\tYou have " + choice)
-            validChoice = true;
-        }
-    }
-    return choice;
+    // while (validChoice == false) {
+    //     choice = prompt("Enter 'rock', 'paper', or 'scissors':  ").toLowerCase();
+    //     choice.slice(" ");
+    //     // console.log("player choice: " + choice);
+    //     if (options.includes(choice) == false) {
+    //         console.log("\t\t\t\tInvalid choice! Pick again.\n\t\t\t\t(case-sensitive)");
+    //     } else {
+    //         console.log("\t\t\t\tYou have " + choice)
+    //         validChoice = true;
+    //     }
+    // }
+    // return choice;   
+
+    const computerChoice = getComputerChoice();
+    playRound(playerChoice, computerChoice, roundNum);
+    roundNum +=1;
 }
 
 function playRound(playerChoice, computerChoice, roundNum) {
@@ -63,15 +70,15 @@ function playRound(playerChoice, computerChoice, roundNum) {
     switch (winState) {
         
         case winState = "win":
-            console.log("You win Round " + roundNum + " of 5! "  + playerChoice + " beats " + computerChoice);
+            console.log("You win Round " + roundNum + "! "  + playerChoice + " beats " + computerChoice);
             break;
 
         case winState = "lose":
-            console.log("You lose Round " + roundNum + " of 5! " + computerChoice + " beats " + playerChoice);
+            console.log("You lose Round " + roundNum + "! " + computerChoice + " beats " + playerChoice);
             break;
 
         default:
-            console.log("Round " + roundNum + " of 5 is a tie! You both had " + playerChoice);
+            console.log("Round " + roundNum + " is a tie! You both had " + playerChoice);
             break;
     }
 
@@ -88,7 +95,7 @@ function playGame() {
     let wins = 0;
     let losses = 0;
     let ties = 0;
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 1; i++) {
         let playerChoice = getPlayerChoice();
         let computerChoice = getComputerChoice();
         let roundNum = i + 1;
@@ -129,4 +136,32 @@ function playGame() {
     console.log("Number of ties: " + ties);
 }
 
-playGame();
+// playGame();
+
+/*
+1) create 3 buttons- rock, paper, scissors
+2) add an onclick event to each
+3) when clicked, send the selection as an argument ("rock", "paper", "scissors")
+4) in the function that receives that argument as a parameter,
+    set the playerChoice to that argument
+5) THEN, play the game w/ same logic
+
+here's the order of things
+1) player clicks button, calls function that sets playerChoice according to
+    what button was pressed 
+2) in that function at the end, it gets computerChoice (nothing changes)
+3) then, like before, it calls playRound w/ those 2 variables
+
+
+displaying results:
+1) in HTML, create a div id=results. this will be the main results container
+2) using same for loop code, define the new div result elements before the loop
+    (like div your-wins, div cp-wins, div win-state, div final-winner)
+3) before loop, define gameOver = false. set to true once wins or losses = 5,
+    and break the loop.
+3a) in which case, it might need to be changed to a 'while' loop
+4) if game_over = true:
+    if wins = 5, player wins. update div final-winner accordingly
+    if losses = 5, computer wins. update div final-winner accordingly
+
+*/

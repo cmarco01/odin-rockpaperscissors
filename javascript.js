@@ -1,5 +1,4 @@
-// Globals
-let roundNum = 1;
+
 
 
 function getComputerChoice() {
@@ -12,27 +11,13 @@ function getComputerChoice() {
 }
 
 function getPlayerChoice(playerChoice) {
-    // let options = ['rock', 'paper', 'scissors'];
-    // let validChoice = false;
-    // let choice = "";
-
-    // while (validChoice == false) {
-    //     choice = prompt("Enter 'rock', 'paper', or 'scissors':  ").toLowerCase();
-    //     choice.slice(" ");
-    //     // console.log("player choice: " + choice);
-    //     if (options.includes(choice) == false) {
-    //         console.log("\t\t\t\tInvalid choice! Pick again.\n\t\t\t\t(case-sensitive)");
-    //     } else {
-    //         console.log("\t\t\t\tYou have " + choice)
-    //         validChoice = true;
-    //     }
-    // }
-    // return choice;   
-
     const computerChoice = getComputerChoice();
-    playRound(playerChoice, computerChoice, roundNum);
+    let winState = playRound(playerChoice, computerChoice, roundNum);
     roundNum +=1;
+    calculateResults(winState);
 }
+
+
 
 function playRound(playerChoice, computerChoice, roundNum) {
     // defaulting to "tie"
@@ -85,16 +70,48 @@ function playRound(playerChoice, computerChoice, roundNum) {
     return sendWinState;
 }
 
-// const playerChoice = getPlayerChoice();
-// const computerChoice = getComputerChoice();
 
-// playRound(playerChoice, computerChoice);
+function calculateResults(winState) {
+    // winState will equal "win", "loss", or "tie"
+    let outcome = "";
+    if (gameOver == false) {
+        if (winState == "tie") {
+            outcome = "You tied this round!"
+            ties += 1;
+        } else if (winState == "win") {
+            outcome = "You win this round!";
+            wins += 1;
+        } else if (winState == "lose") {
+            outcome = "You lost this round!";
+            losses += 1;
+        }
+
+        yourWins.textContent = "Your wins: " + wins;
+        computerWins.textContent = "Computer wins: " + losses;
+        roundOutcome.textContent = outcome;
+
+    
+        if (wins == 5) {
+            finalWinner.textContent = "You win the game!";
+            gameOver = true;
+        } else if (losses == 5) {
+            finalWinner.textContent = "You lost the game!";
+            gameOver = true;
+        }
+    }
+
+}
+
+
 
 function playGame() {
     let getWinState = "";
     let wins = 0;
     let losses = 0;
     let ties = 0;
+
+
+
     for (let i = 0; i < 1; i++) {
         let playerChoice = getPlayerChoice();
         let computerChoice = getComputerChoice();
@@ -136,21 +153,34 @@ function playGame() {
     console.log("Number of ties: " + ties);
 }
 
-// playGame();
+// Globals
+let roundNum = 1;
+let wins = 0;
+let losses = 0;
+let ties = 0;
+let gameOver = false;
+
+const results = document.querySelector("#results");
+
+const yourWins = document.createElement("div");
+const computerWins = document.createElement("div");
+const roundOutcome = document.createElement("div");
+const finalWinner = document.createElement("div");
+
+yourWins.textContent = "Your wins: 0";
+computerWins.textContent = "Computer wins: 0";
+
+finalWinner.style.fontSize = "32px";
+
+results.appendChild(yourWins);
+results.appendChild(computerWins);
+results.appendChild(roundOutcome);
+results.appendChild(finalWinner);
+
 
 /*
-1) create 3 buttons- rock, paper, scissors
-2) add an onclick event to each
-3) when clicked, send the selection as an argument ("rock", "paper", "scissors")
-4) in the function that receives that argument as a parameter,
-    set the playerChoice to that argument
-5) THEN, play the game w/ same logic
-
-here's the order of things
-1) player clicks button, calls function that sets playerChoice according to
-    what button was pressed 
-2) in that function at the end, it gets computerChoice (nothing changes)
-3) then, like before, it calls playRound w/ those 2 variables
+we have all the divs.
+just need to update them based on results.
 
 
 displaying results:

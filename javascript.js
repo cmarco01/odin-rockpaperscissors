@@ -88,6 +88,7 @@ function calculateResults(winState) {
 
         yourWins.textContent = "Your wins: " + wins;
         computerWins.textContent = "Computer wins: " + losses;
+        numTies.textContent = "Ties: " + ties;
         roundOutcome.textContent = outcome;
 
     
@@ -164,16 +165,19 @@ const results = document.querySelector("#results");
 
 const yourWins = document.createElement("div");
 const computerWins = document.createElement("div");
+const numTies = document.createElement("div");
 const roundOutcome = document.createElement("div");
 const finalWinner = document.createElement("div");
 
 yourWins.textContent = "Your wins: 0";
 computerWins.textContent = "Computer wins: 0";
+numTies.textContent = "Ties: 0";
 
 finalWinner.style.fontSize = "32px";
 
 results.appendChild(yourWins);
 results.appendChild(computerWins);
+results.appendChild(numTies);
 results.appendChild(roundOutcome);
 results.appendChild(finalWinner);
 
